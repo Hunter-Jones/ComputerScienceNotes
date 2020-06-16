@@ -1,0 +1,964 @@
+
+Chapter 4
+    4.3
+        & is the address of operator
+            typing &myVar will return the location in memory of myvar
+            this is also how CBR works
+                void callByRef(int & myVar);
+
+            CBR is faster than CBV because it doesn't create a new value
+                In work CBR is used much more often
+
+            int & x = y created an int x that references y
+
+        If you pass a double as a argument when the parameter is an int, the value passed will be truncated 
+
+    4.4 Procedural Abstraction
+        Only programmer who wrote the function needs to know it
+        DONT USE GLOBAL VARIABLE
+            ABSOLUTELY NEVER
+
+        Static variables
+            static int myInt;
+                automatically sets to 0 if you don't specify
+
+            static variables are saved to the function even after the function ends
+                STAT VARIABLES NEVER ARE DESTROYED
+                Can be used to count the number of times a function is run
+                It can also be useful if you have a large array you don't want to slow down the program by creating each time the function is run
+
+                Rarely used
+
+            Regular variables are saved in the stack
+            Constants and static variables are saved in static so using statics doesn't slow down the program
+
+        Formal parameters are variables local to the header of a function
+
+        If you use namespace std globally then std::cout in a function, every function will have access to namespace std (You cant override it)
+
+        Overloading
+            Ex: Overloading
+                void getDimensions(int);
+                void getDimensions(int, int);
+                void getDimensions(int, double);
+                void getDimensions(double, double);
+
+        Exit
+            exit(EXIT_SUCCESS); exit(EXIT_FAILURE);
+                Mainly just used if there is an error
+                Completely leaves the program
+
+                Rarely used and very serious
+
+                Requires cstdlib
+
+        Remember floating points only have 6 digit precision 
+            Remember it will store a double unless you add an f after
+
+Measure  Code
+    Mathematical operations, logical statements, assignments, and returns each take 1 CPU cycle
+    Big O Notation focuses on the WORST case scenario
+    Anybody can program, but making it efficient is harder
+
+Memory
+    Heap
+    Stack (Work area)
+        Stack frame- equally size memory allocation that are currently running
+            Main starts on the stack frame, then whatever function (ex funk) you run next also gets allocated on the stack frame
+                Return address- where stack goes once the function ends
+                Stack also stores the parameters and locals when the function is in stack frame
+            If funk calls a function in itself (funk2) then funk2 enters the stack frame also and funk is frozen in stack frame
+            Once funk2 is finished, it exits stack frame and funk can run
+                Once it leaves stack frame the program can reallocate the memory for the next function
+
+            This is why you shouldn't keep chaining functions
+                The more in stack frame the slower it gets
+
+        Stack works LIFO, Last In First Out
+            EX: Main is the first to enter stack and last to leave (when program is done)
+
+        Although it is hard  to do, stack overflow happens when you have too much stuff in stack and the program dies
+
+    Static
+        Constants and static variables and functions 
+        Stay for the entirety of the program
+    Code
+        Where the program information is saved for stack to run
+            Stack has to rebuild the function once it enters stack frame
+
+Chapter 5
+    5.1 Void Functions
+        Good idea to have a return at the end of a function (even if void)
+        Cant do things like cout or set a variable equal to a void function
+
+        Can set so main accepts values with things like: int main(int argc, char* argv[])
+            Rarely used and can only be done in command line
+
+    5.2 Call-By-Reference
+        void evenOrOdd(int = 0);
+            This sets a default argument if you don't enter something
+            Default arguments have to be the last arguments
+            ***You only need to make it a default in the heading of the function and can create a normal function definition
+
+        void evenOrOdd(int &);
+            How to create a definition for CBR
+
+        Remember CBR  doesn't create a copy, so it uses less memory
+
+        USE CBR FOR EVERYTHING
+            If you don't want to change the function use const
+                void funky (int&, float&, const string&)
+                Makes it act the same as CBV but as efficient as CBR
+                For data types like string it is MUCH faster
+
+        All functions are addresses
+            Frame function- calls other functions inside itself
+            Leaf function- doesn't call other function
+                Faster
+
+    5.3 Using Pre & Post Conditions
+        Every function should have a precondition and a postcondition comment when you create the function
+
+        Pre
+            What is assumed true when the function is called
+                ex: sqrt(double x);
+                    // Pre: the value x must be >= 0
+                    // Post: Prints the value of x squared to standard output
+        Post
+            Describes the effect of the function
+            Tells what will be true after the function execution
+            Describe returned value
+            Describe changes to CBR variables
+
+        Separate Compilation
+            You can create a separate cpp file then use #include to include them
+                They get included at whatever point in the program you have the #include
+                PUT AT THE TOP
+                To get user code use " " instead of <>
+                    ex: include "arrayModification.cpp"
+
+            Can be used with stubs and drivers
+                Stub- function that tests other functions
+                Drivers- fake functions used 
+
+        Test Driven Development- Software development process that relies on repetition of short development cycles
+            Write a test, check if the test fails, write the production code, run all tests
+
+            Alpha Testing
+                Model testing- micro scale, test particular table/ class of code
+                    Done by programmers, not testers
+                Integration testing- testing combined part of programs
+                Security testing- test against unauthorized access
+                Backup and recovery testing- testing how well program recovers from crash
+                    IMP
+                End-to-end testing- testing complete program in real world situations
+            Beta Testing
+                Load testing- Testing under heavy loads (lot of people using)
+                Stress testing- (Interchangeable with load sometimes) Testing things like heavy repetition, certain actions or inputs, and complex queries
+                Performance testing- (Sometimes interchangeable with stress) QA or test plans to test how well it runs
+                User acceptance testing- Final testing,  Tests user satisfactions
+
+            Namespace- keeps track of all the names defined in standard library
+                Efficient if you need to use namespace, just use it in a block of code 
+
+                You can create your own namespace
+                    namespace myNS {
+                        declaration-list;
+                    }
+                        using myNS;
+                        myNS::init;
+                    Good because you can use them in block scope for efficiency so you don't include everything
+                using namespace std;
+                    VERY BAD IN LARGE PROGRAMS
+                        If you create a function named init(), it will not be used in replace of the init() function already created in standard library
+
+                    It  is just as efficient to do using std::cout as just typing std::cout whenever you use cout
+                        The first just takes less typing if you use the function a lot
+
+    6.1 Files
+            You can use files to save data
+            Instead of cin and cout use ifstream and ofstream
+                (Input file stream and output file stream)
+                ex: ifstream myFile;
+                Both of these only read or write to a file
+
+                The third is fstream which can read AND write
+                    Less efficient though
+
+                Remember streams use << and >> and can use eof to check end of file
+                Remember to include fstream
+
+                Ex: 
+                    fstream myFile;
+                    myFile.open("text.txt"); (You can use directories)
+                    myFile >> first >> second >> third;
+                    (Code)
+                    myFile.close();
+
+                Works by creating a pointer to the file then buffers a portion of the file so that is faster
+
+                Remember once you open the file to test if myFile.fail() or !myFile
+                    instead you can use myFile.is_open()
+                        Best
+
+                If you leave a file open, the output data will stay in the buffer
+                    Then, if the program crashes, then the information saved in the buffer wont be written to the file
+
+                Files use c-strings not strings
+
+                If you want the user to enter a filename, convert it to c-string
+
+                Output flags
+                     ofstream fileName("text.txt", ios::###); // (### are the access flags)
+                        app- appends instead of deletes when you add to file
+                            ALLOWS YOU TO SAVE AND RESAVE OVER MULTIPLE TIMES
+                            Often used
+                        ate- may write anywhere
+                        binary- writes in binary
+                        in- will read in the file
+                            // In and out aren't needed normally
+                        out- will output to the file
+                        trunc- truncates the file
+
+                         All but in out and binary only do something different if the files is already created
+                         You can add multiple separated by |
+
+                :: is used in inheriting and things like ios::out and ios::in use ios not std
+
+                sync(); can be used to write everything in the buffer that should be written to the file
+
+                File Error testing
+                    ios::eofbit- check if it is the last bit in the file
+                        use eof()
+                    ios::failbit
+                        use fail()
+
+                    ios::goodbit
+                        use bad()
+                    ios::badbit 
+                        use bad()
+
+    6.2 Tools for IO Streams
+        showpoint, setw(), showprecision(), etc can be used with outputting files
+            ex: outfile.setPrecision(2);
+            If you have multiple files, you have to use the iomanip for EACH file
+            ex outfile.setf(ios::fixed)
+
+        Unsetting Flags
+            cout.unsetf(ios::showpoint)
+
+            unsetf undoes whatever setf does
+
+         Passing streams
+            void adjustSalary (ifstream&);
+            void adjustSalary(ifstream & if){}
+
+            STREAMS MUST BE PASSED BY REFERENCE 
+            It can be used like any other parameter after
+            They can also be returned
+            You should open the file in a driver file (ex: main)
+
+        if (!file.eof()){}  // Whenever you read a record, do this to check first
+    6.3 Member functions
+        getline- gets everything, including whitespace
+            getline(outputFile, strVar, characterToStopAt)
+                ex: getline(logs, errorMessage, '\n')
+                The delimiter (character to stop at) can be anything that doesn't occur randomly (things like $ are good if not dealing with money)
+
+        get- gets one character (Can be just a '\n')
+            cin.get(charVar)
+            Can be used to get one character from an input file at a time using a loop
+
+            cin.get(c1); cin.get(c3); cin.get(c3); vs cin >> c1 >> c2 >> c3
+                Using >> over get will avoid whitespaces (If the file goes to a new line, the '\n will be avoid '\n' with >>)
+                inputFile >> charVar is generally better
+
+                Be careful when mixing cin and get
+                    You will have to use an cin.ignore() after the cin (Or you can just do 2 gets instead of one) 
+
+        put- outputs one character (opposite of get)
+            myFile.put(charVar)
+                Just adds one character to the end of the file
+
+                outputFile << strVar also works
+
+            putback- places a character in the input stream
+                Used when you don't want to process a character at all (Basically ignores it)
+                member function of every input stream\
+
+        Character Testing
+            Require <cctype>
+                These will return true or false
+                ex: isdigit(charVar);
+
+                isalpha- is a letter
+                isalnum- is a letter or a digit
+                isdigit- is a number 0-9
+                islower- is a lowercase letter
+                isprint- is a printable character
+                ispunt- is a punctuation (.?!)
+                isspace- is a whitespace
+
+        Character Conversion
+            Requires <cctype>
+                toupper(charVar)
+
+                toupper- converts a cahracter to uppercase if possible or keeps it the same
+                tolower- converts a character to lowercase if possible or keeps it the same
+
+                These are output as integers, to fix you can:
+                    charVar = toupper(charVar)
+                    or cout << static_cast<char>toupper(charVar)
+
+
+Chapter 7: Arrays 
+    7.1: Introduction to Arrays
+        Array is a variable that can store a sequence of values of the same type
+        int test[5] (Size declaration), creates the variable test which is an int that holds five elements
+        Size of the array = num of elements * bits each element is
+            Size declarator- Shows the number of elements in an array (for test it is 5)
+            It would have a size of 20 bytes because an int is 4 bytes and it is 5 ints (5x4=20)
+
+        test[3]
+            Accesses the 3rd element in test
+            Remember test[5] goes 0-4
+            REFERRED TO AS TEST SUB 3 
+
+        When you declare an array, the program reserves dataTypeSize * sizeDeclarator amount of memory, then sets the variable equal to appointer for ONLY THE FIRST address of an elem in the array
+            It will calculate the location of elems past 1 by multiplying by the size of the dataType in the array
+
+        for (int i = 0; i < ARRAY_SIZE - 1; ++i) {}
+            Goes through an entire array
+            Can just use test.length (Assuming test is the array name)
+
+        In global arrays, all elements are initialized to 0 by default
+            NEVER MAKE GLOBAL ARRAYS
+        In local arrays, all elements are uninitialized by default
+
+        If you access an array element passed the end (ex test[6]) can cause crashes or data destruction
+        Also remember to start the array at 0
+
+        Corresponding Elements- First and last elements in an array are corresponding, second element and second to last element are corresponding, etc all the way to the middle
+            Calculate corresponding element: arr[SIZE - 1 - i]
+                ex: in 10 element array at index 2, 10 - 1 - 2 = 7 so 2 and 7 correspond
+                Can be used to reverse an array
+
+    7.2: Looping Through Arrays
+        int test[5] = {8,2,3,4,5};
+            The initializing list {} cant exceed the array size
+            Good idea to have a const int set to the array size before
+            Initialization list can be multiple lines 
+
+            Partial list initiation- initializing only some of the elements at the start
+                The rest of the array will be filled by empty/random values
+                ex int test[7] = {3,2,4}
+                Make sure to have an int keeping track of how many elements are in the array
+            You can choose not to specify a array size if you use a initialization list
+                ex int test = {4,3,5}
+                It will default the size to the amount of elements in the list
+
+            Range-based for loop
+                for (dataType rangeVariable : array)
+                    ex for (int testVal : tests)
+                        This runs each element in the tests array and sets testVal equal to what tests[i] would be in a regular array
+                    You cant update the value normally
+
+                    ex2: for (auto &testVal : tests)
+                        & lets you modify the value of testVal in the array
+                        auto will automatically choose the correct data type
+
+                    Range based for loops should be used when:
+                        You want to go 1 by 1 without skipping or going back in the array
+
+                        Good for processing values or doing calculations like summing 
+
+            Increments
+                test[i++] goes to the index of i+1
+                test[i]++ adds 1 to test[i]
+
+            To copy an array you have to use a for loop, and cant do arr1 = arr2
+
+            Parallel arrays- multiple same size arrays with data that is related
+                Ex: 1 array can have hoursWorked and one can have payRate
+                Basically an annoying way to create a key/value pairs 
+
+    7.3: Multidimensional Arrays
+
+        Arrays Passed to Functions
+            You can pass an array to the function
+                void printA(int[], int);, printA(int elems[], int size){}, printA(test, testSize)
+                The array is passed as a pointer for efficiency (All that is given is the pointer to the first element)
+                    YOU WILL NEED TO HAVE A SIZE INT
+                Changing array info in the function will change the array (CBR)
+                    You can declare the array as const (parameter in header/prototype) to protect it
+
+                        When you pass a const variable to a function, C++ requires it to be passed as const
+                            This means if you declare an array const in a function and pass it to another function, in the 2nd function it must also have the const keyword
+                            Cant go back from read-only mode 
+            You can also pass an array element 
+                It will just pass the value like a standard variable
+
+            2 Dimensional Arrays
+                int test[5][3]
+                    Creates a 5 row and 3 column array
+
+                    for (int i = 0; i <test.length(); ++i){for int j = 0; j < test[i].length; ++j}
+                        Runs through a 2 dimensional array
+                        Outer loop runs the rows and the inner runs columns
+
+                    2 Dimensional arrays can be passed to functions the same as regular array 
+                        EXCEPT: You must put the size of the columns
+                            void printA(int[][COLUMN_SIZE], int);, printA(int elems[][COLUMN_SIZE], int size){}, printA(test, rowSize)
+                                REQUIRED IN BOTH HEADER AND PROTOTYPE, important so the compiler knows how to divide the array's rows and columns
+
+                    +3 Dimensional array
+                        Ex: solid[2][3][5]
+                        You can have an infinite amount of elements
+                        When passing to functions you have to pass the size of all but the first row
+
+                    Why i j & k are used as counters
+                        i stands for incrementer
+                        j,k, etc are letters past i
+
+    7.4: Searching Algorithms
+
+        Linear Search (Sequential)
+
+            bool found = false;
+            int index = 0
+            while(index < arr.length() && !found)
+            {
+                if (arr[index] == searchItem)
+                {
+                    found = true;
+                    return index;
+                }
+                ++index;
+            }
+            return -1;
+
+            Used to sequentially find a value in an array
+            Can run O(N) times at worst and O(1) at best
+                Will run fastest if searchItem is the first element in the array and slowest if searchItem is the last elements
+                O(N/2) is the average speed
+
+        Binary Search
+
+            bool found = false;
+            int first = 0;
+            int last = arr.length() - 1;
+            int middle;
+            while(first <= last && !found)
+            {
+                middle - (first + last) / 2;       // Guess
+                if(arr[middle] == searchItem)      // Correct guess
+                {
+                    found = true;
+                    return middle;
+                }
+                else if (arr[middle] > searchItem) // Guess is too high
+                {
+                    last = middle - 1;
+                }
+                else                               // Guess is too low 
+                {
+                    first = middle + 1;
+                }
+            }
+            return -1;
+
+            Used to go through a sorted array and cut the possible indexes in half each time
+            Requires a sorted array
+            Can run O(log˅2(N)) at worst and O(1) at best
+                Best if the middle is searchItem
+
+    7.5: Sorting Algorithms
+        Can be alphabetic or numeric (ascending or descending)
+
+        Bubble Sort
+            Compare 1st 2 elements and move down one element to compare 2nd and 3rd and changes if necessary
+            Goes through and changes again if necessary
+            Repeat until it passes with no changes
+
+            bool sorted = false;
+            while (!sorted) 
+            {
+                sorted = true;
+                for (int i = 0; i < arr.length() - 1; ++i)
+                    if (arr[i] > arr[i + 1]) 
+                    {
+                    int var = arr[i];
+                    arr[i] = arr[i + 1];
+                    arr[i + 1] = var;
+
+                    sorted = false;
+                    }
+                }
+            }
+            
+            Easy to write, but VERY inefficient
+                Basically should never be used
+            At best it can run O(N) times at best and at worst it runs O(N^2) times
+                The best is if the array is already sorted
+
+        Selection Sort
+            Finds the smallest element and moves it to first, then finds the second smallest and moves it to second, etc
+
+            int minIndex, minValue
+            for(int i = 0; i < arr.length() - 1; ++i) 
+            {
+                minIndex = i;
+                minValue = arr[i]
+                for (int j = i + 1; j < arr.length(); ++j)
+                {
+                    if (minValue > arr[j])
+                    {
+                        minIndex = j;
+                        minValue = arr[j]
+                    }
+                }
+                arr[minIndex] = arr[i];
+                arr[i] = minValue;
+
+            }
+
+            More efficient than bubble sort, but slightly more complex
+                Should always be used over bubble sort
+            Runs O(N^2) times always
+
+        Big O Notation
+            Used to measure how quickly an algorithm grows 
+                Not how fast the algorithm actually is 
+                Big theta calculates actual speed, but is much harder to calculate
+            There is a best, worst, and average time
+                Worst is the most important
+            Just because an algorithm has a faster O() doesn't mean it runs faster or is better
+                Coefficients also impact runtime (not shown in O())
+
+            Table                Per 10 items        Per 100 items             
+                    O(1)        1                   1
+                    O(log n)    3                   7    
+                    O(n)        10                  100 (Okay)
+                    O(n log n)  30                  700
+                    O(n^2)      100                 1000 (Bad)
+                    O(2^n)      1024                2^100
+                    O(!n)       3628800             !100
+
+Chapter 8: Strings and Vectors
+	8.1- Cstrings
+
+		C-String- Sequence of characters stored in adjacent memory and terminated with a NULL character (\0)	
+			Originally from C
+			ex: char cstring[11]; // Creates a string with 10 bytes of characters and a null character in the last position
+			Because they are a static size, they are much faster than strings
+		String- member of class string
+
+		More about cstrings
+			When you use cstring[3] then you go to the location for cstring[0] then go number of elements (3) x the number of bytes per element (based on the data type) toget the memory location of cstring[3]
+			Other ways to make a cstring
+				char long_cs[20] = "Hello";
+					You can have the string bigger than you need allowing you to add to the end
+					The computer automatically knows to add the '\0' in the correct spot (after o)
+					Remember, this is 19 characters and the NT
+				char short_cs[] = "Hello";
+					This will auto choose the smallest
+				char short_cs[] = {'H','e','l','l','o'};
+					THIS IS BAD, IT WILL NOT ADD THE '\0' AT THE END, DO NOT DO
+
+				syntax: char arrayName[Max_C_String_Size + 1] // +1 is to give another space at the end for the null terminator
+
+		Cstrings are build from arrays
+		Strings are basically vectors
+			Have more methods avaliable
+			Preferable for ease of use 
+
+		Cstring uses
+
+			cin.getline(line, SIZE)  // Gets line  to put in cstring, but cuts off anyting past the array size
+				YOU DONT NEED TO DO SIZE - 1, this is because getline was built to work with cstring and already leaves the last character empty (ex if SIZE is 80, it knows to truncate after 79)
+
+			while (line[i] != '\0'){++i}  // Way to loop through a cstring
+				WILL CAUSE THE PROGRAM TO BREAK IF YOU ACCIDENTALLY DELATE '\0', SO IT IS A GOOD IDEA TO ADD && i < SIZE 
+
+		Cstring Functions
+			#include <cstring>
+
+			strcpy(NEW_STR, STR); // Copies whatever is in STR to NEW_STR (STR can be a string like "test" or a cstring variable)
+				You can also use pointers
+				If the new array isn't big enough to hold the old array, it can cause problems
+			strncpy(NEW_CSTR, CSTR, SIZE); // Copies whatever is in STR to NEW_STR safely
+				Same as strcpy but is safe and allows for you to input the size of NEW_STR
+				THIS IS NORMALLY WHAT YOU SHOULD USE IF YOU DONT KNOW THE SIZE OF STR
+
+			strcmp(CSTR1, CSTR2)  // Compares string 1 and 2
+				If CSTR1 equal CSTR2 it outputs 0
+				Otherwise if 1st is greater lexographically it is a + int, if 2nd is lexographically greater it outputs a - int
+				You cant do cstring1 == sctring2
+
+			strlen(CSTR)  // gets the length of STR (gives number of characters and doesn't include '\0')
+				Different than the size of the string
+
+			strcat(CSTR1, CSTR2) // Concatonates CSTR2 to CSTR1
+				You need to add a space to it
+				CSTR1 has to be big enough to hold both
+					If not it will lead to an RTE
+			strcat(CSTR1, CSTR2, SIZE) // Concatonates CSTR2 to CSTR1 safely
+				Lets you input the size for CSTR1
+
+		Cstring Conversion Functions
+			#include <cstlib>
+
+				atoi- CString to int (Paramater Cstring)  [Alpha to integer]
+					ex int testNum = atoi("123");
+					No bounds checking
+				atol- Cstring to long (Paramter Cstring) [Alpha to float]
+				atof- Cstring to double (Parameter Cstring) [Alpha to float]
+				atoa- Converts 1st int to Cstring and stores it in 2nd parameter with 3rd parameter as the base of converted value (Paramter int, Cstirng, int) [Alpha to ]
+					ex intChar[10] = itoa(isNum, intChar, 8)
+					IT WILL DEFAULT TO BASE 10 IF YOU ONLY INCLUDE 2 PARAMETERS
+					This will make it base 8 hexal
+
+				It will be undefined if Cstring has nondigits
+					Sometimes it will return up to the nondigit, other times it will return 0
+					Sime compilers will crash
+
+				You can cout cstrings and don't need to loop through like an array
+
+				You can use cin.get() with a for loop to go through a cstring
+					Remember, you can also use getline
+
+		User-written Cstring Function
+
+			void stringCopy(char string1[]){} // How you write functins with cstrings
+				Remember when looping through an unknown amount of character cstring to use a while loop for '\0' and make sure it is below SIZE
+				You can also have arrays like {'H','u','n','t','e','r','\0','J','o','n','e','s','\0'}
+					This will allow you to write a function that pauses at null terminator one (you can do something in between the next run), then continues until it finds the second
+
+			Pointers are addresses to location in memory
+				Cstrigns just store a pointer to the 1st index in a cstring
+
+				Using pointers
+					while(*cstr != '\0'){++cstr}
+					This uses the pointer (*) to cstr c-string to access the element at a location
+					This will just loop through the array until we reach null terminator
+
+					CAN BE DONE WITH: *CSTR
+
+				Range Based For Loop
+					for(char c: STR){cout << c}  // Works on arrays, cstrings, strings, and vectors
+					Remember rb for loops are good if you aren't modifying an array and sequentially going through
+
+		Why Use
+
+			Pros:
+				Very efficient: Compile-time allocation and determination of size
+				Conserves storage and simplest way of storing
+			Cons:
+				Fixed Size
+				Don't keep track of their own size (Careful for bound errors)
+				Libraties can have boundary protection errors
+				Less libraries/features 
+
+	8.2: Strings
+		#include <string>
+		using std::string; 
+
+		Unlike cstrings
+			Strings get access to all Cstring operations and more
+				You can still do things like access string elements like an array
+
+			str1 = str2; // You can set strings equal to each other
+			string str1, str2, str3; // Multi declare works
+			str1 = str2 + str3; // You can concatonate with +
+			str1+= str2; // += Also works
+
+			strings can be compared with <, >, >=, <=
+				This sort the same as strcmp, lexographically, except they only return true or false 
+				This means you can easily sort them
+			 They can also use== and !=
+
+
+
+			string str; // You can origanally set a string equal to nothing then fill it later
+			string str("Hello World"); // You can also declare a string like a constructor
+			string str1(str2); // Another way to set str1 to str2
+			string str1(str2, int);  // Can set str1 to the first int characters in str2
+			string str1(str2, int1 int2);  // Can set str1 equal to the first int1 digits starting at index int2
+			string str(char, int);  // Can set str equal to int number of element char
+				This one is pretty cool
+
+		Inputting:
+			Main way: getline(cin, STR1);  // Best way to get input into a string (Unless you just want 1 word)
+				Remember you can apply a 3rd value to be a sentinel to stop early (Overrides '\n')
+
+		STRINGS ARE OBJECTS
+			More complex than primative types
+			Whenever you use something that you #include you will be using an object with methods
+
+		Indexing
+			str1[6] // Gets the 7th element
+			str1.at(6) // Same thing but with the vector at command
+				HAS BOUND CHECKING
+			People Debate about which is faster
+
+		Size
+			Strings automatically increase in size if the string is not big enough
+			Increasing size too much is inefficient
+
+			str1.length() and str1.size() are the same thing
+			
+
+		String Member Functions (Types)
+			Assignment
+			Modification
+			Access
+			Substring
+			Comparison
+			Search
+
+			There are over 100 functions
+			They are optimized, so you wont to rewrite them
+
+		Stringstream
+			#include <sstream>
+			using std::stringstream;
+
+			Used to get input from a stream and treat it like a string and apply string operations
+
+			Use Code:
+				stringstram SS_NAME; // Creates the string stream
+
+				SS_NAME.clear();
+				SS_NAME.str(""); // Both of these are good things to do after initialized
+
+				SS_NAME << VARIABLE1 << VARIABLE2; // Used to output data from variables into the stringstream
+					These can also be things like numbers and characters
+				SS_NAME >> VARIABLE; // Saves what is in the ss to a variable
+
+				string STRING_NAME = SS_NAME.str(); // Takes the information from the string stream and writes it to a regular string
+					// Used to treat strings of characters like streams
+
+			Can contain null characters, so you have to be careful 
+				Wont work with c-strings (Unless you remove the null terminator)
+
+		Strings Conversion
+
+			String & Cstring
+				It is possible to convert cstrings to cstrings  but takes a lot of work
+				Cant set a cstring equal to a string
+				Cant normally use strcpy with a string and a cstring
+
+				How to convert to Cstring: c_str()
+					strcpy(C_STRING, STRING.c_str());  // Copies the string to a cstring 
+
+			String & Int
+				int number = stod("42"); // Converts a string of numbers to an int
+				string str = to_String(2 + 2);  // Lets you convert numbers to strings
+
+		Why to Use Cstrings
+			Char[] is faster
+			Strings generate a pool data structure stored on the heap
+				Takes more ram
+
+			You have to decide between the number of operations and space
+
+			Strings can be bad because they are immutible (changeable) but cant be deleted
+
+			Strings should never be used for security because immutibility
+				A common hacking strategy is to break a program and cause it to dump everything into plaintext
+				Strings will be visible but Cstrings will not 
+
+			Strings variables just hold an address, when you change it you are creating a new memory allocation and setting the string equal to the new memory
+				So concatonating strings take the doesn't just add to the end, but creates a new string with the old strings
+				This means that the old strings are still in memory 
+
+				Basically changing strings creates new strings creating a lot of IO
+					Can be very slow
+				
+	8.3: Vectors
+		#include <vector>
+		using std::vector; 
+
+		Standard Template Library (STL)
+			Containers- Classes that store data and impose organization (Include vectors, deque, and lists) [arrays are also but not in STL]
+			Iterators- Life pointers; mechanics for accessing elements in a container
+
+
+		Vectors
+			vector <DATATYPE> VECTOR_NAME;  // Declare vector
+			vector <DATATYPE> VECTOR_NAME(START_SIZE);  // Declare vector with a specific capacity
+				// It will auto grow at a rate of 2x its original capacity when needed
+			vector<int> VECTOR_NAME(START_SIZE, INITIAL_VALUE);  // Declares a vector with a specific capacity and sets all the elements equal to a value
+			vector<DATATYPE> VECTORNAME(VECTOR); // Can instead put an already created vector in () to copy it
+
+			vector <int> scores(30, 100);  // Example vector with 30 100s
+			vector <int> numbers {12,42,34}; // Declares a vector filled with 3 elements already filled
+			numbers.pushBack(135); // Pushes to the end of a vector
+			numbers.size(); // Gets size (same as length())
+			numbers.pop_back(); // Removes last element 
+			numbers.clear; // Clears an array, same as while(!numbers.empty())
+			numbers.erase(x); // Removes the element at index x
+				Popback is MUCH faster (But it only works on last element)
+				This has to rewrite the vector (Same as strings) 
+
+			Like a string + an array
+			Vectors are arrays
+			They increase in batches (multitudes of 2)
+			Considered the most common containter
+
+			Functions
+				Unlike arrays, with vectors you have to CBR
+				void myFunction(vector<int> &nums){}
+					Remember you can use const
+					You can remove & and CBV but it is MUCH slower and should NEVER be done
+
+			for (auto val: VECTOR_NAME){} // Ranged based for loops work well with vectors
+				// Auto can be used here safely
+
+			Be careful for bounds errors, which will cause segment faults
+				Be careful copying because it could cause segmentation error
+
+			Memory Management
+				Vectors automatically whenever they need more space will double in size
+
+				You can manage memory yourself
+					numbers.reserve(1024); // Will reserve 1024 elements
+					numbers.reserve(numbers.size() + 100); // Can also do something like this
+					numbers.resize(2048);  // This sets the vector to 2048 elements
+						This might make the vector grow or shrink
+						If you shrink the vector, you lose anything that is past where it resized
+
+				Vectorized code refers to operations that are performed on multiple components of a vector in one statement
+					vectorized: c = a + b;
+					non-vectorized: for k=1: lengtha a{c(k) = a(k) + b{k)}} (scalar)
+						Performed one by one
+
+				Vector
+					Faster are newer processors
+					Data that needs to be shuffled or rely on table look ups a lot shouldnt be vectors
+
+Chapter 9: Pointers and Dynamic Memory
+	9.1 Addresses
+
+		An address is the location of something in memory (like a mailbox)
+			They are 32 bits and written in hexadecimal
+		Pointers just hold addresses
+			They can be used for dynamic memory
+				You can't use dynamic memory without a pointer
+			Pointers are oftentimes faster to use
+			They also enable the use of data outside of a function (similar to CBR) 
+
+		Each variable has a name, address, and value
+			& - used with a variable to show its address instead of value
+			name - what is normally used to call the variable
+			value - what is stored
+
+			Directly calling (CBV)- using the variable's name
+				CBV is like making a copy
+			Indirectly calling (CBR)- using the variable's address to call it
+				Used with & and pointers
+				You can still modify the variable by indirectictly modifying the variable
+				Using an address is like linking multiple variables together, so changing one, changes them all
+
+		functions without () and arrays without [] are addresses
+
+		Pointers must point to the same type they are declared (int* points to int, string* points to string, int*[] points to int)
+
+		Why Use pointers
+			Dynamic Memory Allocation
+				(Languages like Java dont even let you work with the memory)
+				Allows you to create/delete memory on the fly
+				Efficiency
+
+		Multiple pointers can point to the same location
+			So if any of the pointers or the original variable changes the value, it will change the value for all the pointers and the original variable
+
+	9.2 Arrays and Pointers
+
+		You can use pointers to vectors
+			Be careful dynamically allocating vector 
+			They are already put in the heap
+			Assigning a pointer is like creating a pointer to a pointer (you would need to do int** if it is a vector of ints)
+
+		You can set a pointer to an array, but not an array equal to a pointer
+			This is because you cant change the address of an array
+			The computer will lock the location of an array
+			(You can't even set an array equal to a pointer with the same address as the array)
+
+		You can make const pointers
+
+		Pointer math
+		Adding a value to a pointer moves the pointer 1 of whatever datatype it is
+			ex: *(intArray + 3) moves to the int 3 indexes array
+				This is pointer notation 
+				You can use the sizeOf method on a pointer and also tell its datatype
+			When adding to pointer in pointer notation, there is no bounds checking
+
+		You can use ++,-- + -, += -= on pointers
+		You can also subtract pointers
+			Gives the difference of 2 pointers
+			So if you are at index 3 and subtract at index 2, it does 3 - 2 and returns 1
+				Can be used for indexes
+
+			ptrdiff_t datatype is used to store the subtraction of pointers
+
+			You can also use == to see if 2 pointers point to the same address
+
+		If you understand pass by reference, you understand pointers
+
+		Use constant pointers when you want to read the address or value but not change it
+			You must use const when passing a pointer to a function if the pointer being passed is already constant
+			
+			constant int* i = &val;
+			CONSTANT APPLIES TO THE DATA NOT THE ADDRESS
+				This means you can cant modify the value of the pointer, but you can modify what is being modified
+
+			int* constant i = &val
+			This makes a constant pointer
+			CONSTANT POINTERS MEAN YOU CANT CHANGE THE ADRESS 
+				This means you cant change the address but you can change the value of what is being pointed to
+				Basically read-only mode
+
+			constant int* constant i = &val
+				You literally cant change anything
+
+
+	9.3 Dynamic Arrays
+		Heap- memory locatations set aside in C++
+			Anytime new is used, it is to save to the heap
+			It is used to store data on the fly
+			Pointers are the only way to access the heap
+			Make sure to delete pointers locations when done, so you dont have a dangling pointer
+				Deleting frees up the memory
+				Dangling Pointers are one of the big problems with pointers
+
+		Memory location 0 is never used and is a filler
+
+		When creating a multidemensional array, C++ first builds the outter array, then fills it with arrays inside itself
+
+		typedef is a declaring statement (like std::)
+			All it does is declares something as a type
+			if you do typedef ip = int*;
+			Now you can just use ip POINTERNAME to declare int*
+			FUN BUT OLD
+
+		C++ has memory for code, static variables, stack (whats actually running), and heap
+			Pointers are created in stack and point to the heap
+
+	9.4 Smart Pointers
+
+		Must include Memory
+
+		Unique- memory gets deleted once the variable is out of scope	
+		Shared
+		Weak
+
+		When to use a smart pointer
+			There is a small extra cost when creating a smart pointer
+			Useful when an object must be dynamically created by a function and deleted by another function that is not part of the same class
+
+		Pointers and references (using *) genrally use the same amount of memory
+			REFERENCES SOMETIMES ARENT OPTOMIZED depending on the compiler
+			Use references in function parameters and return types
+			Use pointers to inplement algorithms and data structures
+				Specifically for large amounts of storaget
