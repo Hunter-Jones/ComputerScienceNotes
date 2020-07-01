@@ -6,26 +6,137 @@ using std::cout;
 using std::endl;
 using std::string;
 
-struct ListNode  // WB-1.1
+namespace
 {
-	string item;
-	int count;
-	ListNode *link;
-};
+	void print(string str)
+	{
+		cout << str << "\n";
+	}
+}
 
-typedef ListNode* ListNodePtr;
+	struct ListNode  // WB-1.1
+	{
+		string item;
+		int count;
+		ListNode *link;
+	};
+
+	typedef ListNode* ListNodePtr;
 
 
-// WB-5
-struct DoubleNode 
-{
-	int data;
-	DoubleNode* forwardLink;
-	DoubleNode* backwardLink;
-};
-typedef DoubleNode* DoubleNodePtr;
+	// WB-5
+	struct DoubleNode 
+	{
+		int data;
+		DoubleNode* forwardLink;
+		DoubleNode* backwardLink;
+	};
+	typedef DoubleNode* DoubleNodePtr;
 
 void nodesAndLinkedLists();
+
+	// WB-6
+	namespace FILOTest
+	{
+		void c() 
+		{
+			print("C started");
+
+			print("C ended");
+		}
+		void b() 
+		{
+			print("B started");
+			c();
+			print("B ended");
+		}
+		void a() 
+		{
+			print("A started");
+			b();
+			print("A ended");
+		}
+	}
+
+	// WB-7.0
+	namespace stack
+	{
+		struct StackFrame
+		{
+			char data;
+			StackFrame *link;
+		};
+		typedef StackFrame* StackFramePtr;
+
+		class Stack
+		{
+		public:
+			Stack();
+			//Initializes the object to an empty stack.
+			
+			Stack(const Stack& aStack);
+			//Copy constructor.
+
+			~Stack();
+			//Destroys the stack and returns all the memory to the freestore.
+			
+			void push(char newData);
+			//Postcondition: theSymbol has been added to the stack.
+			
+			char pop();
+			//Precondition: The stack is not empty.
+			//Returns the top symbol on the stack and removes that
+			//top symbol from the stack.
+			
+			bool empty() const;
+			//Returns true if the stack is empty. Returns false otherwise.
+		private:
+			StackFramePtr top;
+		};
+	}
+
+	// WB-8.0
+	namespace queue
+	{
+		struct QueueNode
+		{
+			char data;
+			QueueNode *link;
+		};
+		typedef QueueNode* QueueNodePtr;
+
+		class Queue
+		{
+		public:
+			Queue();
+			//Initializes the object to an empty queue.
+			
+			Queue(const Queue& aQueue);
+
+			~Queue();
+
+			void add(char item);
+			//Postcondition: item has been added to the back of the queue.
+			
+			char remove();
+			//Precondition: The queue is not empty.
+			//Returns the item at the front of the queue and
+			//removes that item from the queue.
+			
+			bool empty() const;
+			//Returns true if the queue is empty. Returns false otherwise.
+		private:
+			QueueNodePtr front; //Points to the head of a linked list.
+			//Items are removed at the head
+			
+			QueueNodePtr back; //Points to the node at the other end of the
+			//linked list. Items are added at this end.
+		};
+	}
+
+using namespace stack;
+using namespace queue;
+
 void stacksAndQueus();
 
 // Pre: Requires the head to a ListNode pointer Linked List and a new string value to be put in the node
@@ -56,14 +167,6 @@ void removeBefore(ListNodePtr& beforeDiscard);
 // Post: Removes the node discard from the list
 // Returns nothing
 void remove(DoubleNodePtr& discard);
-
-namespace
-{
-	void print(string str)
-	{
-		cout << str << "\n";
-	}
-}
 
 int main()
 {
@@ -438,13 +541,51 @@ void nodesAndLinkedLists()
 	}
 
 	print("When using linked lists, it is possible to make a class with needed functions");
-	
-
 }
 
 void stacksAndQueus()
 {
 	print("\n--13.2: Stacks and Queues--\n\n");
+
+	print("\nStacks are data structures that retrieve data in reverse order");
+	// FILO- First In Last Out
+	// AKA LIFO (Last In First Out)
+
+	// WB-6
+	print("");
+	FILOTest::a();  
+	print("This example shows that in C++ A is the first function to run, but the last to end");
+	// Similar to how main is the first to start, but is the last to end
+	
+	print("\nPushing is when you add to the stack");  // Same function as head insert
+	print("Popping is when you remove from the stack");
+	// Name derieves from an analogy for stacks which is a springloaded
+	// cafeteria plate dispenser
+
+	// An empty stack is like an empty linked list
+	// In an empty stack, thee 1st link should be set to NULL
+
+	// It is possible to make your own stack class
+	// WB-7 show the class definition, copy constructor and the push/pop functions
+
+	print("\nQueue- Data structure that operates in FIFO");
+	// First in First Out
+	// Basically its the same as the stack except it is FIFO instead of FILOTest
+	// Think of it like a line:
+		// The first person to enter the line is the first to be served
+	print("Queues are linked lists implemented like stacks but with two pointers");
+	print("They have a head and a tail link");
+
+	print("\nFront- first element in queue");
+	print("Back- last element in queue");
+	// Like front or back of the line
+
+	// WB-8 Shows the implementation of the queue class from the textbook
+
+	Queue lineInitials;
+	lineInitials.add('A');
+	lineInitials.add('C');
+	lineInitials.remove();
 }
 
 //WB-2.0
@@ -547,4 +688,213 @@ void remove(DoubleNodePtr& discard)
 
 	// Deletes discard to free up the space
 	delete discard;
+}
+
+// WB-7.1
+char Stack::pop()
+{
+	// Needs to have at least 1 element to pop
+	if (empty())
+	{
+		cout << "Error: popping an empty stack.\n";
+		exit(1);
+	}
+
+	// Sets the variable to return equal to the 1st node's data
+	char result = top->data;
+
+	// Creatse a pointer to the 1st node
+	StackFramePtr tempPtr;
+	tempPtr = top;
+
+	// Sets the 1st element equal to the 2nd element
+	// Esentially removing it from the list
+	top = top->link;
+
+	// Clear deleted node from memory
+	delete tempPtr;
+
+	// Returns the data in the 1st node
+	// (In case the programmer wants to use the deleted element)
+	return result;
+}
+
+// WB-7.2
+Stack::Stack(const Stack& aStack)
+{
+	if (aStack.top == NULL)
+	{
+		top = NULL;
+	}
+	else
+	{
+		StackFramePtr temp = aStack.top;//temp moves
+		//through the nodes from top to bottom of aStack.
+		StackFramePtr end;//Points to end of the new stack.
+		end = new StackFrame;
+		end->data = temp->data;
+		top = end;
+		//First node created and filled with data.
+		//New nodes are now added AFTER this first node.
+		temp = temp->link;
+		while (temp != NULL)
+		{
+			end->link = new StackFrame;
+			end = end->link;
+			end->data = temp->data;
+			temp = temp->link;
+		}
+		end->link = NULL;
+	}	
+}
+
+//WB-7.3
+void Stack::push(char newData)
+{
+	// Creates a new node
+	StackFramePtr tempPtr = new StackFrame;
+	
+	// Sets the data in the new node to user input
+	tempPtr->data = newData;
+
+	// Sets the new element to link to the head of the old list
+	// Essentially creating a new list with the new data as the first element
+	tempPtr->link = top;
+
+	// Sets the top to the list with the newly created first node
+	top = tempPtr;
+}
+
+//WB-7.4
+bool Stack::empty() const 
+{
+	if (top->link == NULL)
+	{
+		return true;
+	}
+	return false;
+}
+
+//WB-8.1
+Queue::Queue() : front(NULL), back(NULL)
+{
+//Intentionally empty.
+}
+
+// WB-8.2
+void Queue::add(char item)
+{
+	if (empty())
+	{
+		// Creates a new queue if it doesnt exist already
+		front = new QueueNode;
+		front->data = item;
+		front->link = NULL;
+
+		// Because it is only a 1 node LL, the first is the last element
+		back = front;
+	}
+	else
+	{
+		// Creates a new temp node
+		QueueNodePtr tempPtr;
+		tempPtr = new QueueNode;
+		tempPtr->data = item;
+		tempPtr->link = NULL;
+
+		// Sets the last element to the new node
+		back->link = tempPtr;
+		back = tempPtr;
+	}
+}
+
+//WB-8.3
+char Queue::remove()
+{
+	// Error since there has to be an element to remove
+	if (empty())
+	{
+		cout << "Error: Removing an item from an empty queue.\n";
+		exit(1);
+	}
+
+	// Saves the deleted data to be returned
+	char result = front->data;
+	// Creates a node for the deleted element
+	QueueNodePtr discard;
+	discard = front;
+	// Sets the front (1st element) to the 2nd element
+	// (Removes the first element from the list)
+	front = front->link;
+
+	if (front == NULL) //if you removed the last node
+	{
+		back = NULL;
+	}
+
+	// Frees memory and returns deleted data
+	delete discard;
+	return result;
+}
+
+//WB-8.4
+bool Queue::empty() const 
+{
+	if (front == NULL)
+	{
+		return true;
+	}
+	return false;
+}
+
+//WB-8.5
+Queue::~Queue()
+{
+	char nextChar;
+	while (!empty())
+	{
+		remove();
+	}
+}
+
+//WB-8.6
+Queue::Queue(const Queue& aQueue)
+{
+	if (aQueue.empty( ))
+	{
+		front = back = NULL;
+	}
+	else
+	{
+		QueueNodePtr tempPtrOld = aQueue.front;
+		//tempPtrOld moves through the nodes
+		//from front to back of aQueue
+
+		QueueNodePtr tempPtrNew;
+		//tempPtrNew is used to create new nodes
+
+		back = new QueueNode;
+		back->data = tempPtrOld->data;
+		back->link = NULL;
+
+		front = back;
+		//First node created and filled with data
+		//New nodes are now added AFTER this first node
+
+		tempPtrOld = tempPtrOld->link;
+		//tempPtrOld now points to second
+		//node or NULL if there is no second node.
+
+		while (tempPtrOld != NULL)
+		{
+			tempPtrNew = new QueueNode;
+			tempPtrNew->data = tempPtrOld->data;
+			tempPtrNew->link = NULL;
+
+			back->link = tempPtrNew;
+			back = tempPtrNew;
+
+			tempPtrOld = tempPtrOld->link;
+		}
+	}
 }
