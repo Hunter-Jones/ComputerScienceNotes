@@ -586,6 +586,12 @@ void stacksAndQueus()
 	lineInitials.add('A');
 	lineInitials.add('C');
 	lineInitials.remove();
+
+	// Stacks and queues operate differently, because 
+	// stacks add to the start of the LL
+	// they remove from the start of the list
+	// queues add to the back of the list
+	// they remove from the front of the list
 }
 
 //WB-2.0
