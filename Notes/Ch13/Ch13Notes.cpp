@@ -168,6 +168,13 @@ void removeBefore(ListNodePtr& beforeDiscard);
 // Returns nothing
 void remove(DoubleNodePtr& discard);
 
+// Pre: Requires a ListNodePointer to the head of a LL
+// The linked list must have ListNode* named link to point to the next element
+// It also needs a string called item which can be used to store data elements
+// Post modifies the linked list making it's order be the reverse
+//  of what it originally was
+void reverse(ListNodePtr& head);
+
 int main()
 {
 	print("---Chapter 13- Pointers and Linked Lists---");
@@ -211,7 +218,8 @@ void nodesAndLinkedLists()
 	// Without the parentheses it would do head.count and then apply the dereference operator (*) to head.count
 	// Which would give an error, because head is a pointer
 	print("C++ also lets you simplify it to head->MEMBER_VARIABLE = VALUE");
-	head->item = "french fries";
+	// head->item = "french fries";
+	// The head should not have any data
 	print("These changes will modify ONLY the first node's member variables");
 
 	print("\nThe last node's pointer should point to NULL");
@@ -239,7 +247,18 @@ void nodesAndLinkedLists()
 	head->link->link = new ListNode;
 	head->link->link->item = "chicken tendies";
 	head->link->link->count = 8;
-	head->link->link->link = NULL;  // Specifies it goes no further
+	head->link->link->link = new ListNode;  // Specifies it goes no further
+	head->link->link->link->item = "soda";
+	head->link->link->count = 11;
+	head->link->link->link->link = new ListNode;
+	head->link->link->link->link->item = "french fries";
+	head->link->link->link->link->count = 9;
+	head->link->link->link->link->link = new ListNode;
+	head->link->link->link->link->link->item = "Borger";
+	head->link->link->link->link->link->count = 9000;
+	head->link->link->link->link->link->link = NULL;
+
+	reverse(head);
 
 	struct ReportCard
 	{
@@ -903,4 +922,48 @@ Queue::Queue(const Queue& aQueue)
 			tempPtrOld = tempPtrOld->link;
 		}
 	}
+}
+
+
+void reverse(ListNodePtr& head)
+{
+	int length = 0;
+	ListNodePtr tempPtr;
+
+	// Gets the length of the array
+	for (ListNodePtr iter = head; iter != NULL; iter = iter->link)
+	{
+		++length;
+	}
+
+	// Length of the LL
+	// Subtract 1 for NULL
+	--length;
+
+	// Array to store the LL node links
+	ListNodePtr listNodeArr[length];
+
+	// Goes through and adds each node's link to the array in reverse order
+	tempPtr = head->link;
+	for (int i = length - 1; i >= 0; --i)
+	{
+		listNodeArr[i] = tempPtr;
+		tempPtr = tempPtr->link;
+	}
+
+	//  Goes through the array and sets each element's link to the next element
+	tempPtr = head;
+	for (int i = 0; i < length; ++i)
+	{
+		tempPtr->link = listNodeArr[i];
+		tempPtr = tempPtr->link;
+	}
+	// Adds a link for NULL at the end
+	tempPtr->link = NULL;
+
+	// Prints newly reversed array
+	// for (ListNodePtr iter = head; iter != NULL; iter = iter->link)
+	// {
+	// 	cout << iter->item << " : " << iter->count << "\n";
+	// }
 }
