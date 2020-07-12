@@ -6,6 +6,28 @@ using std::cin;
 using std::cout;
 using std::string;
 
+namespace
+{
+	void print(string str)
+	{
+		cout << str << "\n";
+	}
+
+	struct Node
+	{
+		int data;
+		Node* link;
+	}; typedef Node* NodePtr;
+
+	struct Tree
+	{
+		int data;
+		Tree* leftLink;
+		Tree* rightLink;
+	}; typedef Tree* TreePtr;
+}
+
+// Practice Program 1
 int largestDivisor(int number);
 // Pre: requires number, a whole number
 // Post: Returns the largest divisor 
@@ -16,17 +38,27 @@ int largestDivisor(int number, int prev);
 // Helper function to go through and return 
 // so user can type ld(15) instead of ld(15, 15)
 
+//Practice Program 3
 bool isPrime(int number);
 // Pre: requires number, a whole number
 // Post: Returns the largest divisor 
 bool isPrime(int number, int prev);
-namespace
-{
-	void print(string str)
-	{
-		cout << str << "\n";
-	}
-}
+
+// Practice Project 1
+// Pre: Requires a Node linked list pointer
+// Post: Returns how many nodes there are in the linked list
+int nodeLength(const NodePtr& head);
+
+//Practice Program 2
+void headInsert(TreePtr& head, int  newData);
+// Pre: Requires a binary tree 
+// and an integer for data to be added to the binary tree
+// Post modifies the binary tree by adding newData to the appropriate branch
+void setData(TreePtr currentNode, int newData);
+// Helper function for headInsert
+// Pre: Requires a binary tree 
+// and an integer for data to be added to the binary tree
+// Adds the newData to the current node in the tree
 
 int main()
 {
@@ -35,10 +67,53 @@ int main()
 	cout << "5: " << largestDivisor(5) << endl;
 	cout << "90: " << largestDivisor(90) << endl;
 
+
+
 	print("\nPrime: ");
 	cout << "15: " << isPrime(15) << endl;
 	cout << "5: " << isPrime(5) << endl;
 	cout << "90: " << isPrime(90) << endl;
+
+
+
+	NodePtr head = new Node;
+	head->data = 4;
+	head->link = new Node;
+	head->link->data = 5;
+	head->link->link = new Node;
+	head->link->link->data = 2;
+	head->link->link->link = new Node;  // Specifies it goes no further
+	head->link->link->link->data = 55;
+	head->link->link->link->link = new Node;
+	head->link->link->link->link->data = 11;
+	head->link->link->link->link->link = new Node;
+	head->link->link->link->link->link->data = 0;
+	head->link->link->link->link->link->link = NULL;
+
+	cout << "\nLinked List Length: ";
+	cout << nodeLength(head) << endl;
+
+
+
+	TreePtr treeHead = NULL;
+
+	cout << "\nTree Insert: ";
+	headInsert(treeHead, 5);  // head 
+	// cout << treeHead->data << " ";
+	headInsert(treeHead, 3); // l
+	headInsert(treeHead, 7); // r
+	headInsert(treeHead, 6); // rl
+	headInsert(treeHead, 7); // rr
+	headInsert(treeHead, 1); // ll
+	headInsert(treeHead, 4); // lr
+	// cout << treeHead->rightLink->data << " " << treeHead->rightLink->rightLink->data << " ";
+	cout << treeHead->data;
+	cout << treeHead->leftLink->data;
+	cout << treeHead->rightLink->data;
+	cout << treeHead->rightLink->leftLink->data;
+	cout << treeHead->rightLink->rightLink->data;
+	cout << treeHead->leftLink->leftLink->data;
+	cout << treeHead->leftLink->rightLink->data;
 }
 
 int largestDivisor(int number)
@@ -79,4 +154,110 @@ bool isPrime(int number, int prev)
 	{	
 		return isPrime(number, prev);
 	}
+}
+
+int nodeLength(const NodePtr& head)
+{
+	// Prevents segmentation fault if it is empty
+	if (head != NULL){
+		if (head->link == NULL)
+		{
+			return 1;
+		}
+		else 
+		{
+			return nodeLength(head->link) + 1;
+		}
+	}
+}
+
+// Original 
+// void headInsert(TreePtr& head, int newData)
+// {
+// 	if (head == NULL)
+// 	{
+// 		cout << "middle ";
+// 		head = new Tree;
+// 		head->leftLink = NULL;
+// 		head->rightLink = NULL;
+// 		head->data = newData;
+// 		return;
+// 	}
+// 	else if (head->data > newData)
+// 	{
+// 		if (head->leftLink == NULL)
+// 		{
+// 			head->leftLink = new Tree;
+
+// 			head->leftLink->data = newData;
+// 			head->leftLink->leftLink = NULL;
+// 			head->leftLink->rightLink = NULL;
+// 		}
+// 		else
+// 		{
+// 			headInsert(head->leftLink, newData);
+// 	} 
+// 	else 
+// 	{
+// 		if (head->rightLink == NULL)
+// 		{
+// 			head->rightLink = new Tree;
+
+// 			head->rightLink->data = newData;
+// 			head->rightLink->leftLink = NULL;
+// 			head->rightLink->rightLink = NULL;
+// 		}
+// 		else
+// 		{
+// 			headInsert(head->rightLink, newData);
+// 		}
+// 	}
+// }
+
+void headInsert(TreePtr& head, int newData)
+{
+	if (head == NULL)
+	{
+		// Adds the first element
+		head = new Tree;
+		setData(head, newData);
+		return;
+	}
+
+	if (head->data > newData)
+	{
+		//If the new element is smaller, add to left side
+		if (head->leftLink == NULL)
+		{
+			head->leftLink = new Tree;
+			setData(head->leftLink, newData);
+		}
+		else
+		{
+			// If an element is already on the left side, go another branch deeper
+			headInsert(head->leftLink, newData);
+		}
+	} 
+	else 
+	{
+		// If new element is larger, add to right side
+		if (head->rightLink == NULL)
+		{
+			// If no element exists on right side, add here
+			head->rightLink = new Tree;
+			setData(head->rightLink, newData);
+		}
+		else
+		{
+			// If an element is already on the right side, go another branch deeper
+			headInsert(head->rightLink, newData);
+		}
+	}
+}
+
+void setData(TreePtr currentNode, int newData)
+{
+	currentNode->data = newData;
+	currentNode->leftLink = NULL;
+	currentNode->rightLink = NULL;
 }
