@@ -961,4 +961,113 @@ Chapter 9: Pointers and Dynamic Memory
 			REFERENCES SOMETIMES ARENT OPTOMIZED depending on the compiler
 			Use references in function parameters and return types
 			Use pointers to inplement algorithms and data structures
-				Specifically for large amounts of storaget
+				Specifically for large amounts of storage
+
+- From now on using YouTube Videos
+- Not everything will match the Problem Solving with C++ book 1:1 anymore
+
+10 Defining Classes
+
+    10.1 Structures
+    https://www.youtube.com/watch?v=-IrueTrxNHA
+
+        Structures are variables that let you store related information
+            Unlike arrays, they can have multiple datatypes
+            EX: You can have a name structure with:
+                String for first name
+                String for last name
+                Char for middle initital 
+                Int for age
+                And a 3 element string array of their favorite foods
+
+        To create a structure type struct structureName {}; 
+            Initialize it outside of main
+        In the {} put the member variables
+            Members are anything stored within the structure
+        Within main, create an instance of it with structureName structureInstanceName= {}
+        In the {} put the values of the variables followed by a , 
+            EX: 
+                "Hunter",
+                "Jones",
+                'M',
+                18,
+                ["chicken", "raviolli", "pizza"]
+        You can also access variables individually like HuntersStructure.firstName 
+            You can modify, print, or do anything else you can with a variable
+
+    10.2 Introduction to Classes and Objects
+    https://www.youtube.com/watch?v=ABRP_5RYhqU
+
+        Classes
+
+            Can be useful for grouping similar variables and functions
+
+            Class names should be camel case with first letter capitalized
+                Ex: HuntersClass, Temperatures
+
+            Access Specifiers- Public/Private
+                Public- Lets any function/variable be accessed outside of the class (ex in main)
+                Private- Lets any function/variables only be accessed by the class
+
+        Object
+
+            Specific Instance of a Class
+                Like creating a variable
+                    EX: Temperatures usa, HuntersClass exampleClass
+                    Each creates an instance of the class
+
+
+            To access a public function from a class use the dot operator (.)
+                HuntersClass huntersObject; huntersObject.huntersFunction();
+
+    10.21 Using Variables in Classes
+    https://www.youtube.com/watch?v=jTS7JTud1qQ&list=PLAE85DE8440AA6B83&index=13
+
+        You should make variables private
+            This means you cant access the variables in main
+        You should make a public getter/setter function to access them
+            Setters set the variable in the class equal to whatever parameter the user provides
+                EX: (if the private variable is name) void setName(string newName);
+                    (instead of HuntersClass.name = "Hunter") HunterClass.setName(hunter);
+            Getters just return the variable
+                EX: (if the private variable is name) string getName();
+                    (instead of cout << HuntersClass.name) cout << HunterClass.etName();
+
+    10.3 Abstract Data Types
+    https://www.youtube.com/watch?v=HcxqzYsiJ3k
+
+    Abstract Data Types (ADT)- A class which hides information other programmers don't need to know 
+        Only interface, Not implementation
+
+        Basically classes should be built with ADT programming style with an interface and an implementation file
+
+        The interface file explains what each function does
+        The implementation is the actual function 
+
+        User doesn't need to know how the function works, just what it does
+            
+            Like a car: The user doesn't need to know the engineering of how the car works
+            They just need to know how to use it
+            If they did have access to the innerworkings of the car, they could mess something up causing the car to not work or be dangerous
+
+    10.4 Inheritance
+    https://www.youtube.com/watch?v=gq2Igdc-OSI
+
+        Inheritance is useful because you can have 2 classes and you want all the members in class 1 to be avaliable in class 2, plus you might even want class 2 to include even more functions
+            Saves copying and pasting
+
+        Base class- Class with the original members
+            Inherited
+        Derieved class- Class that inherits all the members from the base class AND has its own unique members
+            Inheriter
+
+        To create a derieved class use class derievedClassName: public baseClassName
+            EX: class teacher: public student
+            This gives the teacher class all the public members from the student class
+            It then lets the teacher class have its own extra members that the student class can't access   
+
+            Using the public keyword only transfers the public members
+            the derieved class will not be able to access the private members
+            It also will not inherit constructors
+        
+

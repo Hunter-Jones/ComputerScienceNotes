@@ -50,15 +50,22 @@ bool isPrime(int number, int prev);
 int nodeLength(const NodePtr& head);
 
 //Practice Program 2
-void headInsert(TreePtr& head, int  newData);
+void headInsert(TreePtr& root, int  newData);
 // Pre: Requires a binary tree 
 // and an integer for data to be added to the binary tree
 // Post modifies the binary tree by adding newData to the appropriate branch
+// to create a binary search tree
 void setData(TreePtr currentNode, int newData);
 // Helper function for headInsert
 // Pre: Requires a binary tree 
 // and an integer for data to be added to the binary tree
 // Adds the newData to the current node in the tree
+
+//Practice Program 3
+void printTree(const TreePtr& root);
+// Pre: Requires the root of a Tree
+// Post: Recursively prints out the tree, starting with the elements on the left 
+// then moving to the elements on the right
 
 int main()
 {
@@ -99,13 +106,13 @@ int main()
 
 	cout << "\nTree Insert: ";
 	headInsert(treeHead, 5);  // head 
-	// cout << treeHead->data << " ";
 	headInsert(treeHead, 3); // l
 	headInsert(treeHead, 7); // r
 	headInsert(treeHead, 6); // rl
-	headInsert(treeHead, 7); // rr
+	headInsert(treeHead, 7); // rr (if data = newData, it goes to right branch)
 	headInsert(treeHead, 1); // ll
 	headInsert(treeHead, 4); // lr
+	headInsert(treeHead, 9); // rrr
 	// cout << treeHead->rightLink->data << " " << treeHead->rightLink->rightLink->data << " ";
 	cout << treeHead->data;
 	cout << treeHead->leftLink->data;
@@ -114,6 +121,10 @@ int main()
 	cout << treeHead->rightLink->rightLink->data;
 	cout << treeHead->leftLink->leftLink->data;
 	cout << treeHead->leftLink->rightLink->data;
+	cout << treeHead->rightLink->rightLink->rightLink->data;
+
+	cout << "\n\nPrint Tree: ";
+	printTree(treeHead);
 }
 
 int largestDivisor(int number)
@@ -214,50 +225,63 @@ int nodeLength(const NodePtr& head)
 // 	}
 // }
 
-void headInsert(TreePtr& head, int newData)
+void headInsert(TreePtr& root, int newData)
 {
-	if (head == NULL)
+	if (root == NULL)
 	{
 		// Adds the first element
-		head = new Tree;
-		setData(head, newData);
+		root = new Tree;
+		setData(root, newData);
 		return;
 	}
 
-	if (head->data > newData)
+	if (root->data > newData)
 	{
 		//If the new element is smaller, add to left side
-		if (head->leftLink == NULL)
+		if (root->leftLink == NULL)
 		{
-			head->leftLink = new Tree;
-			setData(head->leftLink, newData);
+			root->leftLink = new Tree;
+			setData(root->leftLink, newData);
 		}
 		else
 		{
 			// If an element is already on the left side, go another branch deeper
-			headInsert(head->leftLink, newData);
+			headInsert(root->leftLink, newData);
 		}
 	} 
 	else 
 	{
 		// If new element is larger, add to right side
-		if (head->rightLink == NULL)
+		if (root->rightLink == NULL)
 		{
 			// If no element exists on right side, add here
-			head->rightLink = new Tree;
-			setData(head->rightLink, newData);
+			root->rightLink = new Tree;
+			setData(root->rightLink, newData);
 		}
 		else
 		{
 			// If an element is already on the right side, go another branch deeper
-			headInsert(head->rightLink, newData);
+			headInsert(root->rightLink, newData);
 		}
 	}
 }
-
 void setData(TreePtr currentNode, int newData)
 {
 	currentNode->data = newData;
 	currentNode->leftLink = NULL;
 	currentNode->rightLink = NULL;
+}
+
+void printTree(const TreePtr& root)
+{
+	cout << root->data;
+
+	if(root->leftLink != NULL)
+	{	
+		printTree(root->leftLink);
+	}
+	if(root->rightLink != NULL)
+	{
+		printTree(root->rightLink);
+	}
 }
