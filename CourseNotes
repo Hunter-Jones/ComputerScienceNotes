@@ -966,7 +966,7 @@ Chapter 9: Pointers and Dynamic Memory
 - From now on using YouTube Videos
 - Not everything will match the Problem Solving with C++ book 1:1 anymore
 
-10 Defining Classes
+Chapter 10: Defining Classes
 
     10.1 Structures
     https://www.youtube.com/watch?v=-IrueTrxNHA
@@ -1069,5 +1069,85 @@ Chapter 9: Pointers and Dynamic Memory
             Using the public keyword only transfers the public members
             the derieved class will not be able to access the private members
             It also will not inherit constructors
-        
 
+Chapter 11: Friends, Overloading, and Arrays in Classes
+
+    10.1 Friends
+    https://www.youtube.com/watch?v=WCFGNdXSzus
+
+        To make a friend function, create a prototype in the class
+        You need to put the friend keyword before the prototype
+        EX: friend void friendFunctionName (ClassName ClassVarName);
+
+        Friend functions aren't associated with the class
+        (When writing the function anywhere but the prototype, you write it like normal)
+
+        Friend functions have access to all private members in the class
+            It is basically like the class giving trust to the friend function
+            Normally, you will put use the class instance you want to modify/view as a parameter of the friend
+
+            Friend functions are called like normal functions, NOT like class member functions
+            
+            Friend functions are not private or public
+
+    11.2 Operator Overloading 
+    https://www.youtube.com/watch?v=PgGhEovFhd0
+    https://www.youtube.com/watch?v=q4vZIF-uMzs
+
+        Operator overloading lets you change the way operators (=-/* etc)
+        work
+            Useful if you try to do things like add 2 classes together
+            C++ doesn't know how to add 2 custom classes together
+
+        How to Overload 
+            Write in the prototype: 
+            ClassName operator operatorSymbol(ClassName);
+            EX: HuntersClass operator+(HuntersClass);
+                This will overload the + operator for HuntersClass and let you add another hunters class to it
+                It returns a HuntersClass    
+            EX: HuntersClass operator+(int);
+                This will overload the + operator for HuntersClass and let you add an int to it  
+
+            Write in the implementation:
+            ClassName ClassName::operator operatorSymbol(ClassName)
+            EX: HuntersClass HuntersClass::operator+(int) {}
+                Within the {} define what it does
+
+        Overloading Operators is important for creating ADTs
+        All overloaded operators should work in a way that makes sense for the operator
+            Using + should add the values, not subtract
+            This way, you don't need to know how the documentation works to know what using the operator does
+
+    11.3 Classes of Arrays
+
+        Couldn't Find a video
+
+    10.4 Array of Class Objects
+    https://www.youtube.com/watch?v=FHhcSncuHEI
+
+    How to make a dynamic array
+        datatype *arrayName;
+        arrayName = new datatype[CAPACITY];
+    How to delete it
+        delete[] arrayName
+        arrayName = NULL;
+
+        Same as deleting a regular dynamic variable, but you also have to include the [] 
+
+    You can then use it like a normal array
+        You don't even need to type the dereference operator (*)
+        You can do everything like normal, modify/print specific values, loop through, etc
+
+    Dynamic arrays are stored in the heap
+    Another effect is that you can deallocate the memory
+    It also lets you deallocate the array, freeing up the memory when you are done using
+        With normal arrays, they stay in memory as long as they are in scope
+
+    REMEMBER: DYNAMIC MEMORY IS NOT DELETED OUTSIDE OF SCOPE
+        You have to delete it yourself
+        When the dynamic variable is inside a class, the deconstructor (unless you overloaded it) automatically deletes all dynamic memory when the object is destroyed
+            If you do overload the deconstructor, you have to go delete all the dynamic memory from the class
+
+        Remember: When you delete dynamic variables, it removes them from the heap, but it doesn't delete the pointer
+            This will mean the pointer will point to a random value
+            Good programming practices, says to make the pointer point to NULL after you delete the dynamic variable from heap
