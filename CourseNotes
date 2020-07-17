@@ -1151,3 +1151,66 @@ Chapter 11: Friends, Overloading, and Arrays in Classes
         Remember: When you delete dynamic variables, it removes them from the heap, but it doesn't delete the pointer
             This will mean the pointer will point to a random value
             Good programming practices, says to make the pointer point to NULL after you delete the dynamic variable from heap
+
+Chapter 12: Seperate Compilation and Namespaces
+    
+    12.1- Placing Classes in Seperate Files
+    https://www.youtube.com/watch?v=NTip15BHVZc
+
+        Oftentimes, you should seperate classes into seperate files
+            Easy to manage when there are large amounts of classes
+            In big groups, each person can work on a seperate file
+
+            Some people like to keep all files in same folder as main.cpp
+
+            In codeblocks/ other  IDEs they can create a template version of the class with a destructor and other stuff
+
+        !!!IMPORTANT!!!
+        You will have 2 files
+            Header File (Interface)
+                .h filetype
+                Class prototypes/variable declaration
+                Has 
+
+            C++ Source File (Implementation)
+                .cpp filetype
+                Has bodies of the functions (actual code)
+                Has #include "HEADERFILENAME.h"
+                Has all other includes/using statements needed for the class to work 
+
+            Main CPP File
+                .cpp filetype
+                Has main code
+                (Uses custom class)
+                Has all other includes/using statements needed for the program to work
+                Has #include "HEADERFILENAME.h"
+
+        Useful, because other people only need to reead the interface file and don't need to see the inplementation file
+
+    12.2- Namespaces in C++
+    https://www.youtube.com/watch?v=ts1Eek5w7ZA
+
+        You can create custom namespace functions
+        Type: namespace nameForNamespace {}
+            EX: namespace huntersNamespace
+            Within {} put everything that should be included in the custom namespace
+
+        C did not have namespaces
+            Because it didnt have namespaces, custom libraries often named the function libraryName + function name
+            EX: huntersLibrary_print
+            This is to make sure the library doesn't have the same function name as something already in the program
+
+        !Namespaces are used to avoid naming conflicts 
+
+        You can nest namespaces
+
+        When calling functions from a specific namespace you can use the scope resolution operator  (::) each time you call the function
+            EX: huntersNamespace::print()
+            EX: huntersNamespace::commonFunctions::print()
+                For nested namespaces
+        Or you can use a using statement
+            Using works for any code below it within the same scope
+            This means you can use using inside of a function to only let the namespace be active in the namespace
+            EX: using namespace huntersNamespace
+        Or you can use using for just one function
+            EX: using namespace huntersNamespace::print
