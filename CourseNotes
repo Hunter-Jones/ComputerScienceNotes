@@ -1214,3 +1214,5 @@ Chapter 12: Seperate Compilation and Namespaces
             EX: using namespace huntersNamespace
         Or you can use using for just one function
             EX: using namespace huntersNamespace::print
+
+        Useful when creating your own library
