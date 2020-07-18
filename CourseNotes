@@ -1216,3 +1216,106 @@ Chapter 12: Seperate Compilation and Namespaces
             EX: using namespace huntersNamespace::print
 
         Useful when creating your own library
+
+Chapter 13: Pointers and Linked Lists
+    
+    13.1- Linked List
+    https://www.youtube.com/watch?v=ge8iG7JecR4
+
+        Liked Lists are:
+            Like arrrays: linear data structure (1 dimensional)
+            Unlike Arrays: They are elements linked by pointers
+                Arrays store elements contiguously
+                Since it is pointers, the memory isn't next to each other in a LL
+
+        Linked lists are a pointer to a node
+        The first node is the head
+        It should originally be set to NULL
+
+        Each node has
+        1) Data
+            Can be int, a class, string, etc
+        2) pointer to the next node
+
+        Node can be a structure (Or a class)
+        It is then used in a linked list class
+
+        Assuming you have 3 nodes: head, second, third
+            Assign head's data to the first element to be stored
+                head->data = 1
+            Assign head's link to the second node pointer
+                The head now points to the second node 
+                head->link = new NodePtr
+            Assign second's data to the second element 
+                head->link->data = 2
+            Assign second's link to the third node pointer
+                head->link->link = new NodePtr 
+            Assign the third's data to the 3rd element
+                head->link->link->data = 3;
+            Assign the third's link to NULL
+                head->link->link->link = NULL
+
+        To traverse a liked list, you only need the pointer to the head
+
+        To loop through a linked list you can:
+            Do a while loop checking if the current node doesn't equal NULL
+            Inside the loop, set the current node equal to the link of the current node
+
+    13.2 Stacks and Queues
+    https://www.youtube.com/watch?v=wjI1WNcIntg
+
+        Stacks and Queues
+            Are linear data strctures (like arrays)
+            Flexible size (unlike arrays)
+
+            Main difference is how elements are removes
+
+        Both stacks and queues can be implemented as classes
+
+        Stack
+            LIFO (Last In First Out)
+            First tray put on spring will be the last tray when serving in a cafeteria
+            The class requires a Node variable for the top (head)
+                !Elements are removed from the head 
+                !Elements are added to the tail
+
+            Common Functions
+                isEmpty 
+                    Returns head is equal to NULL
+                    Used to check if the list has any elements
+                peek
+                    Returns the data in top
+                    Used to view the data that will be deleted next
+                push
+                    Adds a node to the top of the list with data provided by the user
+                pop
+                    Removes the element in the top
+                    Should return the deleted elements data
+        
+        Queue
+            FIFO (First In First Out)
+            First person in line is the first person to get a movie ticket
+            The class requires a Node variable for the head and the tail
+                !Elements are removed from the head 
+                !Elements are added to the tail
+
+                This works that the newest element in the list is the tail and the oldest is the head
+
+            Common Functions
+                isEmpty 
+                    Returns head is equal to NULL
+                    Used to check if the list has any elements
+                peek
+                    Returns the data in head
+                    Used to view the data that will be deleted next
+                add
+                    Adds a node to the tail of the list with data provided by the user
+                remove
+                    Removes the element in the head
+                    It should return the deleted data
+
+            For add/remove (push/pop) make sure to update head/tail/top
+            !Do null pointer checks seeing if top/head is NULL to not get an error
+
+
+
