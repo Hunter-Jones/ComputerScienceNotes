@@ -1317,5 +1317,84 @@ Chapter 13: Pointers and Linked Lists
             For add/remove (push/pop) make sure to update head/tail/top
             !Do null pointer checks seeing if top/head is NULL to not get an error
 
+Chapter 14: Recursion
 
+    14.1- Recursive Functions
+    https://www.youtube.com/results?search_query=c%2B%2B+tutorial+28+recursion
+
+        Recursion- alternate to itteration where you call a function within the same function
+            Can do just about anything itteration can
+
+        All recursive functions need to have a stopping case
+        To stop you name a base case
+
+        A base case is a if statement in a recursive function
+        One or more options continue recursion
+        One or more options don't call the function again
+
+        If you don't stop, it will cause an infinite loop crashing the program
+        It will also crash from stack overflow
+            Each time it calls itself, it creates a new variable
+            This adds to the stack
+            Eventually the memory will run out and a stack overflow will occur
+
+        When decrementing, use var - 1 instead of --var 
+
+        You can do logic before the recursive call
+        Or you can do the recursive call first to reverse the order things happen
+            This is because if operations happen after they wait for the recursive call, they must wait until the stopping case was reached, and all other recursive calls that occured after have finished their logic
+
+        Think of recursion like factorials
+        !k = (k) x (k - 1) x (k - 2) x ... 3 x 2 x 1
+        You would take k and each time you call the function you return the last returned number x whatever k equals - 1
+
+        When to use
+            Itteration
+                When you don't need to create stacks
+                (Printing values each run)
+            Recursion
+                When you are creating a stack
+                (Returning 1 large value)
+
+    14.2 How to Understand any Recusive Code
+    https://www.youtube.com/watch?v=B3U6LExgevE
+
+        !The order of code on the screen isn't always the order it is executed
+            (Order of operations)
+
+        When tracking recursive calls, use a tree and make sure to track variables
+        MAKE SURE NOT TO LOSE TRACK
+
+        How to track a recursive function
+        
+            ex 1 Fibbonachi: 
+            int fib(int n) {
+            if (n==0) return 0;
+            if (n==1) return 1;
+            return fib(n-1) + fib(n-2)}
+
+            Start out with a drawing of a tree root, with the first recursive call of fib(n)
+            Draw a new node to the left of the function calls for fib(n-1) 
+            Continue drawing left nodes for fib(n-1) subtractracting 1 each time
+            Eventually you will reach fib(2) which calls fib(1) returning 1 
+            Fill in the right node for fib(2) using fib(n-2) returning 0
+            Put fib(n-2) for the right node of each, this time subtracting 2 until you reach 1 and 0 again
+            Continue moving up until you reach the starting value
+            At this point, each bottom branch should return 1 or 0
+
+            Ex 2 Reversing a List:
+            int reverse (Node head) {
+            if (head=NULL) return;
+            reverse(head->link);
+            cout << "head->data";
+            return;}
+            // Assume linked list has points 1->2->3->4->NULL
+
+            Start out drawing the first node for f(1)
+            It doesn't equal NULL so it goes to 2
+            Continue drawing nodes until you reach the 5th run (head==NULL)
+            return and go back to f(4) printing out 4
+            Continue going back and printing out the numbers and returning until you reach f(1) counting backwards
+
+            If you swapped the reverse(head->link) and cout statement it would print 1 2 3 4 instead of 4 3 2 1
 
