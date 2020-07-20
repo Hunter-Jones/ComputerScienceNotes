@@ -14,15 +14,6 @@ namespace
 	}
 }
 
-	struct ListNode  // WB-1.1
-	{
-		string item;
-		int count;
-		ListNode *link;
-	};
-
-	typedef ListNode* ListNodePtr;
-
 
 	// WB-5
 	struct DoubleNode 
