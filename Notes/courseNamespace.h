@@ -4,6 +4,7 @@
 using std::cout;
 using std::string;
 
+// Namespace for basic functions that should be avaliable in each course notes chapter
 namespace courseNamespace
 {
 	void print(string str)
@@ -11,6 +12,7 @@ namespace courseNamespace
 		cout << str << "\n";
 	}
 
+	// Namespace for basic linked list types
 	namespace nodes
 	{
 		struct ListNode
