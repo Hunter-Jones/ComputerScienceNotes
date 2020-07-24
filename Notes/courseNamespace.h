@@ -3,6 +3,7 @@
 
 using std::cout;
 using std::string;
+using std::cin;
 
 // Namespace for basic functions that should be avaliable in each course notes chapter
 namespace courseNamespace

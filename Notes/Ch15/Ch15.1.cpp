@@ -1,12 +1,13 @@
 #include <iostream>
 #include <string>
 #include "../courseNamespace.h"
-
-using namespace courseNamespace;
 using std::endl;
 using std::cin;
 using std::cout;
 using std::string;
+
+using namespace courseNamespace;
+
 
 //WB-1.1
 class Employee
@@ -104,7 +105,7 @@ int main()
 	print("\nPrivate vs protected");
 	//Private
 	print("  If a variable in a superclass is private, the subclass can't inherit it");
-	print("The variable will be allocated, it just won't be accessible");
+	print("  The variable will be allocated, it just won't be accessible");
 	print("  This means you can't create new member functions in the subclass to get/set it");
 	print("  It can access it with getter and setters functions inherited from the superclass");
 	//Protected
@@ -118,13 +119,12 @@ int main()
 	print("  Private variables are only accessible (only be using getters/setters)");
 	print("  General Rule: Use private unless you have a good reason not to");
 
-	print("You can assign a parent class as a child class, but not the other way around");
+	print("\nYou can assign a parent class as a child class, but not the other way around");
 	// If a function asks for an employee parameter, you can use a inheritedEmployee
 	// You can also set a inheritedEmployee equal to an employee
 
 	Employee Christian = Christopher;  // Setting derived equal to a base
 	// InheritedEmployee Christ = Chris; // Setting a base equal to a derived is illegal
-	return 0;
 
 
 	// SELF TEST START
@@ -217,8 +217,10 @@ int main()
 
 	print("\nIt is possible to call the superclass version of a redefined function in the "
 		"subclass");
-	print("Use the syntax: SubclassInstance.Superclass::memberFunction")
+	print("Use the syntax: SubclassInstance.Superclass::memberFunction");
 	Christopher.Employee::getPayProtected();  
 	// Uses the superclass employee version of gPP instead of the redefinition 
 	// Rare you will ever want to use it
+
+	return 0;
 }
