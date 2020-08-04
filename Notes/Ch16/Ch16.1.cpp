@@ -2,20 +2,20 @@
 #include <string>
 #include "../courseNamespace.h"
 
-namespace exceptionClasses
-{
-	class NegativeNumber
-	{
-	public:
-		NegativeNumber();
-		NegativeNumber(string message);
-		string getMessage();
-	private:
-		string message;
-	};
-		class DivideByZero{};
+// namespace exceptionClasses
+// {
+// 	class NegativeNumber
+// 	{
+// 	public:
+// 		NegativeNumber();
+// 		NegativeNumber(string message);
+// 		string getMessage();
+// 	private:
+// 		string message;
+// 	};
+// 		class DivideByZero{};
 
-}
+// }
 
 using std::endl;
 using std::cin;
@@ -23,7 +23,7 @@ using std::cout;
 using std::string;
 
 using namespace courseNamespace;
-using namespace exceptionClasses;
+using namespace courseNamespace::exceptionClasses;
 
 float divide(float n1, float n2);
 float fixedDivide(float n1, float n2);
@@ -322,20 +322,20 @@ float fixedDivide(float n1, float n2)
 
 }
 
-namespace exceptionClasses
-{
-	NegativeNumber::NegativeNumber()
-	{}
+// namespace exceptionClasses
+// {
+// 	NegativeNumber::NegativeNumber()
+// 	{}
 
-	NegativeNumber::NegativeNumber(string newMessage)
-	: message(newMessage)
-	{}
+// 	NegativeNumber::NegativeNumber(string newMessage)
+// 	: message(newMessage)
+// 	{}
 
-	string NegativeNumber::getMessage()
-	{
-		return message;
-	}
-}
+// 	string NegativeNumber::getMessage()
+// 	{
+// 		return message;
+// 	}
+// }
 
 
 // double safeDivide(int top, int bottom) throw (DivideByZero)  // WB-2.2
