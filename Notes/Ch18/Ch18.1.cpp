@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <iterator>
 #include "../courseNamespace.h"
 
 using std::endl;
