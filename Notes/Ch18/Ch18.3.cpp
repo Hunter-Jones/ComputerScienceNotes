@@ -207,7 +207,8 @@ int main(int argc, char const *argv[])
 	print("\nThere are also 2 sorting algorithms");
 	print("It is impossible for a comparison-based sort algorithm to be faster than O(N logN)");
 
-
+	// Make sure to include algorithm
+	// and have using std::template_function_name
 	return 0;
 }
 // ---GENERIC ALGORITHMS---
